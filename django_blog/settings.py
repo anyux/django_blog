@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "article",
-    "celery_ssh"
+    "celery_ssh",
+    "rest_framework",
+    'user_api'
 ]
 
 MIDDLEWARE = [
