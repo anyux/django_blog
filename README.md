@@ -1,0 +1,1 @@
+django celery 配合使用
