@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "article",
+    "celery_ssh"
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,13 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery Configuration Options
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_TIMEZONE="Asia/Shanghai"
+CELERY_BROKER_URL = 'redis://192.168.255.181:6379/0'
+CELERY_RESULT_BACKEND  = 'redis://192.168.255.181:6379/1'
+CELERY_TASK_IGNORE_RESULT = False  # 确保没有禁用任务结果存储
+
