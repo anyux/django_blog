@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-e0m2cx)52&%#gf%+focqg%_ph$00#j)mcd77auc-^o4ou75&=8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -135,3 +135,39 @@ CELERY_BROKER_URL = 'redis://192.168.255.181:6379/0'
 CELERY_RESULT_BACKEND  = 'redis://192.168.255.181:6379/1'
 CELERY_TASK_IGNORE_RESULT = False  # 确保没有禁用任务结果存储
 
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/ansible_tasks.log'),
+            'formatter': 'verbose',
+        },
+    'console': {
+        'level': 'DEBUG',
+        'class': 'logging.StreamHandler',
+        'formatter': 'simple',
+    },
+    },
+    'loggers': {
+        'ansible_tasks': {
+            'handlers': ['file','console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
