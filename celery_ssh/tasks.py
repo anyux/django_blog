@@ -15,7 +15,6 @@ logger = logging.getLogger('ansible_tasks')
 
 # tasks.py
 
-import ansible_runner
 
 @shared_task
 def celery_ssh(cmd):
@@ -50,26 +49,6 @@ def run_ansible_playbook(playbook_path,inventory,extra_vars=None):
         extravars=extra_vars
     )
     return result.stats  # 返回任务的统计信息
-
-
-
-# class ResultCallback(CallbackBase):
-#     def __init__(self):
-#         super(ResultCallback, self).__init__()
-#         self.results = []
-#
-#     def v2_runner_on_ok(self, result, **kwargs):
-#         host = result._host
-#         self.results.append({host.name: result._result})
-#         logger.info(f"Task executed successfully on {host.name}: {result._result}")
-#
-#     def v2_runner_on_failed(self, result, **kwargs):
-#         host = result._host
-#         logger.error(f"Task failed on {host.name}: {result._result}")
-#
-#     def v2_runner_on_unreachable(self, result, **kwargs):
-#         host = result._host
-#         logger.error(f"Host {host.name} unreachable: {result._result}")
 
 @shared_task
 def run_ansible_ad_hoc(module_name, module_args, hosts):
@@ -135,14 +114,6 @@ def run_ansible_ad_hoc(module_name, module_args, hosts):
 
     return callback.results  # 返回执行结果
 
-# 定义一个简单的结果回调类
-class ResultCallback(CallbackBase):
-    def __init__(self):
-        super(ResultCallback, self).__init__()
-        self.results = []
-
-    def v2_runner_on_ok(self, result, **kwargs):
-        self.results.append(result)
 
 # 主要任务函数
 def adhoc():
@@ -168,7 +139,7 @@ def adhoc():
     passwords = dict()
 
     # 创建 TaskQueueManager，并传入必要的参数
-    callback = ResultCallback()  # 使用自定义的回调类来捕获结果
+    callback = CallbackBase()  # 使用自定义的回调类来捕获结果
     tqm = TaskQueueManager(
         inventory=im,
         variable_manager=vm,

@@ -53,9 +53,9 @@ from ansible.plugins.callback import CallbackBase
 play_source = dict(
     name="Ansible Ad-hoc Command",
     hosts="localhost",  # 或者指定具体主机
-    gather_facts="no",
+    gather_facts="yes",
     tasks=[
-        dict(action=dict(module="ansible.builtin.command", args="ls /tmp"))
+        dict(action=dict(module="ansible.builtin.shell", args="ls /tmp"))
     ]
 )
 

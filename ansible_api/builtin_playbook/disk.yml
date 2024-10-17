@@ -1,0 +1,12 @@
+---
+- name: Get disk usage using Ansible facts
+  hosts: 192.168.255.181,192.168.255.182
+  gather_facts: no  # 开启默认的事实收集
+
+  tasks:
+    - name: 提取磁盘挂载信息并进行处理
+      setup: filter=ansible_mounts
+      register: mount_info
+    - name: 显示处理后的变量
+      shell: echo "{{ mount_info }}"
+      register: mount_in

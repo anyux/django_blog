@@ -10,11 +10,14 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="192.168.255.180">
+      <paths name="192.168.255.182">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="root@192.168.255.182:22 password">

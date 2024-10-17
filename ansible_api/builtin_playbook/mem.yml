@@ -1,0 +1,12 @@
+---
+- name: Get disk usage using Ansible facts
+  hosts: 192.168.255.181,192.168.255.182
+  gather_facts: yes  # 开启默认的事实收集
+
+  tasks:
+    - name: get mem_info
+      setup: filter=ansible_memory_mb
+      register: mem_info
+    - name: print mem_info
+      shell: echo "{{ mem_info }}"
+      register: mount_info

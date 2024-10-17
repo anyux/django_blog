@@ -1,0 +1,23 @@
+---
+- name: Get cpu
+  hosts: 192.168.255.181,192.168.255.182
+  gather_facts: yes  # 开启默认的事实收集
+
+  tasks:
+    - name: 初始化 CPU 使用率列表
+      set_fact:
+        cpu_usages: []
+
+    - name: 循环获取 CPU 使用率
+      ansible.builtin.shell: "top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'"
+      register: cpu_usage_output
+      loop: "{{ range(10) | list }}"  # 执行 10 次
+      delay: 1  # 每次延迟 3 秒
+
+    - name: 将获取的 CPU 使用率添加到列表中
+      set_fact:
+        temp: "{{ cpu_usage_output | flatten   }}"
+
+    - name: 输出 CPU 使用率列表
+      debug:
+        var: temp
