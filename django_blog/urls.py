@@ -20,7 +20,7 @@ from django.urls import path,include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("article/", include("article.urls",namespace="article")),
-    path("celery_ssh/", include("celery_ssh.urls",namespace="celery_ssh")),
+    # path("article/", include("article.urls",namespace="article")),
+    # path("celery_ssh/", include("celery_ssh.urls",namespace="celery_ssh")),
     path("user_api/", include("user_api.urls",namespace="user_api")),
 ]
