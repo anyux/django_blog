@@ -101,13 +101,16 @@ class ResultsCollectorJSONCallback(CallbackBase):
 
 
 
-def execplaybook():
+def execplaybook(inventory=None,yaml_path=None):
     """
     调用playbook，获取所有任务结果
     """
     # 资产配置信息
+    inventory="/etc/ansible/hosts"
+    yaml_path="/etc/ansible/disk.yml"
     DL = DataLoader()
-    IM = InventoryManager(loader=DL, sources="/etc/ansible/hosts")
+    #IM = InventoryManager(loader=DL, sources="/etc/ansible/hosts")
+    IM = InventoryManager(loader=DL, sources=inventory)
     VM = VariableManager(loader=DL, inventory=IM)
 
     # 执行选项
@@ -115,7 +118,8 @@ def execplaybook():
     passwords = dict()  # 这个可以为空，因为在hosts文件中,而且一般也是秘钥登录
 
     # playbooks参数里面放的就是playbook文件路径
-    playbook = PlaybookExecutor(playbooks=["/etc/ansible/cpu.yml"], inventory=IM, variable_manager=VM, loader=DL, passwords=passwords)
+    #playbook = PlaybookExecutor(playbooks=["/etc/ansible/disk.yml"], inventory=IM, variable_manager=VM, loader=DL, passwords=passwords)
+    playbook = PlaybookExecutor(playbooks=[yaml_path], inventory=IM, variable_manager=VM, loader=DL, passwords=passwords)
     callback = ResultsCollectorJSONCallback()
     playbook._tqm._stdout_callback = callback  # 配置callback
     playbook.run()
@@ -159,5 +163,4 @@ def execplaybook():
     return result_raw
 
 
-if __name__ == '__main__':
-    execplaybook()
+

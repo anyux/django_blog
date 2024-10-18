@@ -23,4 +23,5 @@ urlpatterns = [
     # path("article/", include("article.urls",namespace="article")),
     # path("celery_ssh/", include("celery_ssh.urls",namespace="celery_ssh")),
     path("user_api/", include("user_api.urls",namespace="user_api")),
+    path("task_api/", include("task_api.urls",namespace="user_api")),
 ]

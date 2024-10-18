@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "article",
-    # "celery_ssh",
+    "celery_ssh",
     "rest_framework",
-    'user_api'
+    'user_api',
+    'task_api',
 ]
 
 MIDDLEWARE = [
@@ -135,39 +136,73 @@ CELERY_BROKER_URL = 'redis://192.168.255.181:6379/0'
 CELERY_RESULT_BACKEND  = 'redis://192.168.255.181:6379/1'
 CELERY_TASK_IGNORE_RESULT = False  # 确保没有禁用任务结果存储
 
+
 import os
 
 LOGGING = {
     'version': 1,
+    #不会禁用已存在的日志记录器
     'disable_existing_loggers': False,
+    # 定义消息格式
     'formatters': {
+        # 定义详细格式日志条目
         'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
+            # 'format': '{levelname} {asctime} {module} {message}',
+            "format": "{name} {levelname} {asctime}  {process:d} {thread:d} {message}",
             'style': '{',
         },
+        # 简洁日志条目
         'simple': {
             'format': '{levelname} {message}',
             'style': '{',
         },
     },
+    # 日志输出方向
     'handlers': {
+        # 输出到文件
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
+            # FileHander表示写入到文件
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 指定文件位置
             'filename': os.path.join(BASE_DIR, 'logs/ansible_tasks.log'),
+            # 指定记录方式
             'formatter': 'verbose',
+            'maxBytes': 1024  ,
+            'backupCount': 5,
         },
+    # 控制台输出
     'console': {
         'level': 'DEBUG',
+        # 输出到标准输出
         'class': 'logging.StreamHandler',
-        'formatter': 'simple',
+        # 指定记录格式
+        'formatter': 'verbose',
     },
     },
+    # 定义应用程序使用的日志记录器
     'loggers': {
+        # 自定义的日志记录器名称 ansible_tasks
         'ansible_tasks': {
             'handlers': ['file','console'],
             'level': 'DEBUG',
+            # 日志会冒泡传递到父容器
             'propagate': True,
         },
+        'task_api.views': {
+            "handlers": ["file","console"],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
     },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://192.168.255.181:6379/1', # Redis服务器的位置
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
 }

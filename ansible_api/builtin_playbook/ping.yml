@@ -1,0 +1,8 @@
+---
+- name: Get cpu
+  hosts: 192.168.255.181,192.168.255.182
+  gather_facts: yes  # 开启默认的事实收集
+
+  tasks:
+    - name: ping test
+      ping:

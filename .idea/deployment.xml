@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+    <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="192.168.255.111">
         <serverdata>
@@ -9,14 +10,17 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="root@192.168.255.182:22 password">
+      <paths name="192.168.255.182">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+          </excludedPaths>
         </serverdata>
       </paths>
-      <paths name="root@192.168.255.182:22 password (2)">
+      <paths name="root@192.168.255.182:22 password">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
