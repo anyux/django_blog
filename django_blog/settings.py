@@ -147,8 +147,8 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_SOFT_TIME_LIMIT = 25 * 60
 
 CELERY_TIMEZONE="Asia/Shanghai"
-CELERY_BROKER_URL = 'redis://192.168.255.181:6379/0'
-CELERY_RESULT_BACKEND  = 'redis://192.168.255.181:6379/1'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND  = 'redis://127.0.0.1:6379/1'
 #确保任务结果会被存储
 #为True,任务结果丢弃
 #为False,任务结果存储在CELERY_RESULT_BACKEND中
@@ -221,7 +221,7 @@ LOGGING = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://192.168.255.181:6379/1', # Redis服务器的位置
+        'LOCATION': 'redis://127.0.0.1:6379/1', # Redis服务器的位置
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
