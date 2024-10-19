@@ -127,14 +127,35 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Celery Configuration Options
+# Celery 配置项
+#追踪任务的启动状态,为True时,任务状态更新为STARTED,而不是直接从PENDING,跳到SUCCESS,FAILURE
+#当worker任务执行时,状态变为STARTED,任务完成后更新为SUCCESS或FAILURE,可以看到任务是否执行
+#对于flower等监控工具,追踪任务状态
+#状态转换过程
+#PENDING: 任务已创建,未被worker执行
+#STARTED: 任务被worker接收,正在执行
+#SUCCESS: 任务执行成功
+#FAILURE: 任务执行失败
 CELERY_TASK_TRACK_STARTED = True
+#设置硬超时时间
+#指任务最大运行时间,30 * 60 表示设置30分钟超时时间
+#超过硬超时时间就被强制结束任务
+#作用是防止任务卡死,资源控制,及长时间的任务
 CELERY_TASK_TIME_LIMIT = 30 * 60
+#设置软超时时间为25分钟
+#软超时时间会发现超时信号,让任务自己决定如何处理
+CELERY_SOFT_TIME_LIMIT = 25 * 60
 
 CELERY_TIMEZONE="Asia/Shanghai"
 CELERY_BROKER_URL = 'redis://192.168.255.181:6379/0'
 CELERY_RESULT_BACKEND  = 'redis://192.168.255.181:6379/1'
-CELERY_TASK_IGNORE_RESULT = False  # 确保没有禁用任务结果存储
+#确保任务结果会被存储
+#为True,任务结果丢弃
+#为False,任务结果存储在CELERY_RESULT_BACKEND中
+#要获取结果值时,设置为False,如数据处理任务,文件上传完成后通知用户,或者任务返回处理结果
+#消息通知,邮件发送,推送消息,可以通过任务结果查询确保任务成功完成
+#不需要关注任务结果时,例如清理任务,同步任务
+CELERY_TASK_IGNORE_RESULT = False
 
 
 import os
