@@ -1,10 +1,14 @@
+from celery.result import AsyncResult
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from user_api.models import User
-
+from app1.tasks import count_user
+from celery.result import AsyncResult
+from django.http import JsonResponse
 class UserviewAPIView(APIView):
     def get(self, request,pk=None):
         if pk is None:
@@ -62,3 +66,28 @@ class UserviewAPIView(APIView):
             code=400
         response={'msg':msg,'code':code}
         return Response(response)
+
+
+class app1viewAPIView(APIView):
+    def get(self, request):
+        queryset = count_user.delay()
+        # serializer = UserSerializer(queryset.get(), many=True)
+        # print(serializer)
+        # print(serializer.data)
+        # return Response(serializer.data)
+        return JsonResponse({'task_id':queryset.id})
+
+class app2viewAPIView(APIView):
+
+    def get(self,request, pk=None ):
+        result = AsyncResult(pk)  # 通过任务 ID 获取任务状态
+
+        if result.state == 'PENDING':
+            return JsonResponse({'status': 'Task is still running'})
+        elif result.state == 'SUCCESS':
+            return JsonResponse({
+                'status': 'Task completed',
+                'result': result.result  # 返回包含 task_id 的查询结果
+            })
+        elif result.state == 'FAILURE':
+            return JsonResponse({'status': 'Task failed', 'error': str(result.info)})

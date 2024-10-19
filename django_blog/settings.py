@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     'user_api',
     'task_api',
+    'app1',
 ]
 
 MIDDLEWARE = [
@@ -218,11 +219,16 @@ LOGGING = {
     },
 }
 
+#django使用的缓存字典,可以设置多个缓存后端
 CACHES = {
+    #默认缓存配置
     'default': {
+        #使用django-redis作为缓存后端
         'BACKEND': 'django_redis.cache.RedisCache',
+        #redis服务器地址
         'LOCATION': 'redis://127.0.0.1:6379/1', # Redis服务器的位置
         'OPTIONS': {
+        #使用默认的redis客户端
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }

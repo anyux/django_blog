@@ -13,3 +13,4 @@ psutil==6.0.0
 ansible==4.10.0
 ansible-core==2.11.12
 ipython==8.28.0
+django-redis==5.4.0

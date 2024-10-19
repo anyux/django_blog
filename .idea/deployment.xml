@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@107.151.199.209:22 key" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="192.168.255.111">
@@ -20,6 +20,16 @@
           </excludedPaths>
         </serverdata>
       </paths>
+      <paths name="root@107.151.199.209:22 key">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/django" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.venv" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
       <paths name="root@192.168.255.182:22 password">
         <serverdata>
           <mappings>
@@ -28,5 +38,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

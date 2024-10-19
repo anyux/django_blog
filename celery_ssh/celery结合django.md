@@ -136,8 +136,23 @@ touch tasks.py
 ```
 文件结构示例
 ```bash
-
+app1
+├── views.py
+├── tests.py
+├── tasks.py
+├── models.py
+├── __init__.py
+├── apps.py
+└── admin.py
 ```
+settings.py
+```python
+INSTALLED_APPS = [
+    # 其他已安装的应用
+    'app1',
+]
+```
+
 
 
 
